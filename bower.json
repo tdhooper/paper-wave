@@ -6,5 +6,8 @@
   ],
   "description": "1D paper simulation",
   "license": "MIT",
+  "dependencies": {
+    "paper": "git://github.com/paperjs/paper.js.git"
+  },  
   "private": true
 }
