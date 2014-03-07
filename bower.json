@@ -1,0 +1,10 @@
+{
+  "name": "paper-wave",
+  "version": "0.0.1",
+  "authors": [
+    "Thomas Hooper"
+  ],
+  "description": "1D paper simulation",
+  "license": "MIT",
+  "private": true
+}
