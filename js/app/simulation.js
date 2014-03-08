@@ -46,8 +46,8 @@ define(['underscore', 'newton'], function(_, Newton) {
         var rotateHandle = function(handle, centerPoint, angle, distance) {
             var handlePoint = getCoordsForAngle(angle, centerPoint, distance),
                 perpendicular = angle + Math.PI / 2,
-                topCoords = getCoordsForAngle(perpendicular, handlePoint, layout.thickness * -0.5),
-                bottomCoords = getCoordsForAngle(perpendicular, handlePoint, layout.thickness * 0.5);
+                topCoords = getCoordsForAngle(perpendicular, handlePoint, spec.thickness * -0.5),
+                bottomCoords = getCoordsForAngle(perpendicular, handlePoint, spec.thickness * 0.5);
 
             handle.top.pin(topCoords.x, topCoords.y);
             handle.bottom.pin(bottomCoords.x, bottomCoords.y);
@@ -79,8 +79,7 @@ define(['underscore', 'newton'], function(_, Newton) {
             return {
                 points: points,
                 angle: getAngleBetweenPoints(points[0], points[spec.count - 1]),
-                distance: totalDistance / spec.count,
-                thickness: 10
+                distance: totalDistance / spec.count
             };
         };
 
@@ -96,8 +95,8 @@ define(['underscore', 'newton'], function(_, Newton) {
             sim.add(world);
 
             _(layout.points).each(function(point, i) {
-                var topCoords       = getCoordsForAngle(perpendicular, point, layout.thickness * -0.5),
-                    bottomCoords    = getCoordsForAngle(perpendicular, point, layout.thickness * 0.5),
+                var topCoords       = getCoordsForAngle(perpendicular, point, spec.thickness * -0.5),
+                    bottomCoords    = getCoordsForAngle(perpendicular, point, spec.thickness * 0.5),
                     particle = {
                         top:    Newton.Particle(topCoords.x, topCoords.y),
                         bottom: Newton.Particle(bottomCoords.x, bottomCoords.y)
@@ -108,7 +107,7 @@ define(['underscore', 'newton'], function(_, Newton) {
                 world.addParticle(particle.top);
                 world.addParticle(particle.bottom);
 
-                world.DistanceConstraint(particle.top, particle.bottom, 1, layout.thickness);
+                world.DistanceConstraint(particle.top, particle.bottom, 1, spec.thickness);
 
                 if (i < 2 || i > layout.points.length - 3) {
                     particle.top.pin();

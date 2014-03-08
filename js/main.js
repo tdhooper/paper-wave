@@ -14,6 +14,7 @@ require(['app/paper-wave'], function(PaperWave) {
     var paperWave = PaperWave.create({
         canvas: document.getElementById('paperWave'),
         segments: 20,
+        thickness: 10,
         width: 1000,
         height: 500
     });
