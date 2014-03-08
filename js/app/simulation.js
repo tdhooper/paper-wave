@@ -88,7 +88,7 @@ define(['underscore', 'newton'], function(_, Newton) {
                 sim = Newton.Simulator(update, renderer.callback),
                 world = Newton.Body(),
                 perpendicular = layout.angle + Math.PI / 2,
-                distance = layout.distance * 1.4;
+                distance = layout.distance * 1.3;
             
             particles = [];
 
