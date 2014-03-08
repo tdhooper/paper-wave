@@ -88,7 +88,7 @@ define(['underscore', 'newton'], function(_, Newton) {
                 sim = Newton.Simulator(update, renderer.callback),
                 world = Newton.Body(),
                 perpendicular = layout.angle + Math.PI / 2,
-                distance = layout.distance * 1.2;
+                distance = layout.distance * 1.4;
             
             particles = [];
 
@@ -119,6 +119,19 @@ define(['underscore', 'newton'], function(_, Newton) {
                     world.DistanceConstraint(particle.bottom,   particles[i - 1].bottom,    0.4, distance);
                     world.DistanceConstraint(particle.bottom,   particles[i - 1].top,       0.4, distance * 1.1);
                     world.DistanceConstraint(particle.top,      particles[i - 1].bottom,    0.4, distance * 1.1);
+                }
+
+                if (i > 1) {
+                    world.AngleConstraint(
+                        particle.top,
+                        particles[i - 1].top,
+                        particles[i - 2].top,
+                    0.1);
+                    world.AngleConstraint(
+                        particle.bottom,
+                        particles[i - 1].bottom,
+                        particles[i - 2].bottom,
+                    0.1);
                 }
 
             });
