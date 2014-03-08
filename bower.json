@@ -7,7 +7,9 @@
   "description": "1D paper simulation",
   "license": "MIT",
   "dependencies": {
-    "paper": "git://github.com/paperjs/paper.js.git"
+    "paper": "git://github.com/paperjs/paper.js.git",
+    "requirejs": "git://github.com/jrburke/requirejs-bower.git",
+    "underscore": "git://github.com/jashkenas/underscore.git"
   },  
   "private": true
 }
