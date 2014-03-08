@@ -1,11 +1,11 @@
 require.config({
     paths: {   
-        'paper' : "../bower_components/paper/dist/paper",
-        'underscore' : "../bower_components/underscore/underscore"
+        'underscore' : "../bower_components/underscore/underscore",
+        'newton' : "lib/newton/newton"
     },
     shim: {
-        'paper': {
-            'exports': 'paper'
+        'newton': {
+            'exports': 'Newton'
         }
     }
 });
@@ -13,7 +13,7 @@ require.config({
 require(['app/paper-wave'], function(PaperWave) {
     var paperWave = PaperWave.create({
         canvas: document.getElementById('paperWave'),
-        segments: 12,
+        segments: 20,
         width: 1000,
         height: 500
     });

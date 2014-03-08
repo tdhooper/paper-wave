@@ -1,4 +1,4 @@
-define(['app/display', 'app/simulation', 'app/update-loop'], function(Display, Simulation, UpdateLoop) {
+define(['app/simulation'], function(Simulation) {
 
     var PaperWave = {};
 
@@ -6,24 +6,12 @@ define(['app/display', 'app/simulation', 'app/update-loop'], function(Display, S
         var that = {};
 
         that.start = function() {
+            spec.canvas.width = spec.width;
+            spec.canvas.height = spec.height;
             that.simulation.start();
-            that.display.start();
-            that.updateLoop.start();
         };
-
-        that.update = function() {
-            that.simulation.update();
-            that.display.draw(that.simulation.state);
-        };
-
-        that.display = Display.create(spec);
 
         that.simulation = Simulation.create(spec);
-
-        that.updateLoop = UpdateLoop.create({
-            timeout: 50,
-            update: that.update
-        });        
 
         return that;
     };
