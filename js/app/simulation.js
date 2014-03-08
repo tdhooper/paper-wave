@@ -36,11 +36,11 @@ define(['underscore', 'newton'], function(_, Newton) {
                 startIndex = 0,
                 endIndex = spec.segments - 1;
 
-            rotateHandle(particles[startIndex + 1], layout.points[startIndex], angleA, layout.distance);
-            rotateHandle(particles[startIndex], layout.points[startIndex], angleA, 0);
+            rotateHandle(particles[startIndex + 1], layout.points[startIndex + 1], angleA, 0);
+            rotateHandle(particles[startIndex], layout.points[startIndex + 1], angleA, layout.distance * -1);
 
-            rotateHandle(particles[endIndex - 1], layout.points[endIndex], angleB, layout.distance * -1);
-            rotateHandle(particles[endIndex], layout.points[endIndex], angleB, 0);
+            rotateHandle(particles[endIndex - 1], layout.points[endIndex - 1], angleB, 0);
+            rotateHandle(particles[endIndex], layout.points[endIndex - 1], angleB, layout.distance);
         };
 
         var rotateHandle = function(handle, centerPoint, angle, distance) {
@@ -115,11 +115,12 @@ define(['underscore', 'newton'], function(_, Newton) {
                 }
 
                 if (i > 0) {
-                    world.DistanceConstraint(particle.top,      particles[i - 1].top,       1, distance);
-                    world.DistanceConstraint(particle.bottom,   particles[i - 1].bottom,    1, distance);
-                    world.DistanceConstraint(particle.bottom,   particles[i - 1].top,       1, distance);
-                    world.DistanceConstraint(particle.top,      particles[i - 1].bottom,    1, distance);
+                    world.DistanceConstraint(particle.top,      particles[i - 1].top,       0.4, distance);
+                    world.DistanceConstraint(particle.bottom,   particles[i - 1].bottom,    0.4, distance);
+                    world.DistanceConstraint(particle.bottom,   particles[i - 1].top,       0.4, distance * 1.1);
+                    world.DistanceConstraint(particle.top,      particles[i - 1].bottom,    0.4, distance * 1.1);
                 }
+
             });
 
             return sim;             

@@ -13,8 +13,8 @@ require.config({
 require(['app/paper-wave'], function(PaperWave) {
     var paperWave = PaperWave.create({
         canvas: document.getElementById('paperWave'),
-        segments: 20,
-        thickness: 10,
+        segments: 10,
+        thickness: 50,
         width: 1000,
         height: 500
     });
