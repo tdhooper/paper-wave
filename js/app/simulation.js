@@ -26,28 +26,61 @@ define(['underscore', 'newton'], function(_, Newton) {
 
             var sim = createNewtonSimulation();
             sim.start();
-        };
+        };     
 
         var update = function(time, simulator, totalTime) {
             var step = totalTime * 0.001,
                 scale = 1,
-                angleA = layout.angle + (Math.sin(step) * scale),
-                angleB = layout.angle + (Math.cos(step) * scale),
+                offsetScale = 100,
+                angleA = layout.angle + (Math.cos(step + Math.PI) * scale),
+                angleB = layout.angle + (Math.sin(step) * scale),
+                offsetA = Math.cos(step + Math.PI) * offsetScale,
+                offsetB = Math.cos(step) * offsetScale,
                 startIndex = 0,
                 endIndex = spec.segments - 1;
 
-            rotateHandle(particles[startIndex + 1], layout.points[startIndex + 1], angleA, 0);
-            rotateHandle(particles[startIndex], layout.points[startIndex + 1], angleA, layout.distance * -1);
+            moveHandle(
+                particles[startIndex + 1],
+                layout.points[startIndex + 1],
+                angleA,
+                0,
+                offsetA
+            );
+            moveHandle(
+                particles[startIndex],
+                layout.points[startIndex + 1],
+                angleA,
+                layout.distance * -1,
+                offsetA
+            );
 
-            rotateHandle(particles[endIndex - 1], layout.points[endIndex - 1], angleB, 0);
-            rotateHandle(particles[endIndex], layout.points[endIndex - 1], angleB, layout.distance);
+            moveHandle(
+                particles[endIndex - 1],
+                layout.points[endIndex - 1],
+                angleB,
+                0,
+                offsetB
+            );
+            moveHandle(
+                particles[endIndex],
+                layout.points[endIndex - 1],
+                angleB,
+                layout.distance,
+                offsetB
+            );
         };
 
-        var rotateHandle = function(handle, centerPoint, angle, distance) {
+        var moveHandle = function(handle, centerPoint, angle, distance, offset) {
             var handlePoint = getCoordsForAngle(angle, centerPoint, distance),
                 perpendicular = angle + Math.PI / 2,
                 topCoords = getCoordsForAngle(perpendicular, handlePoint, spec.thickness * -0.5),
-                bottomCoords = getCoordsForAngle(perpendicular, handlePoint, spec.thickness * 0.5);
+                bottomCoords = getCoordsForAngle(perpendicular, handlePoint, spec.thickness * 0.5),
+                offsetCoords = getCoordsForAngle(layout.angle + Math.PI / 2, {x: 0, y: 0}, offset);
+
+            topCoords.x += offsetCoords.x;
+            topCoords.y += offsetCoords.y;
+            bottomCoords.x += offsetCoords.x;
+            bottomCoords.y += offsetCoords.y;
 
             handle.top.pin(topCoords.x, topCoords.y);
             handle.bottom.pin(bottomCoords.x, bottomCoords.y);
@@ -115,10 +148,10 @@ define(['underscore', 'newton'], function(_, Newton) {
                 }
 
                 if (i > 0) {
-                    world.DistanceConstraint(particle.top,      particles[i - 1].top,       0.4, distance);
-                    world.DistanceConstraint(particle.bottom,   particles[i - 1].bottom,    0.4, distance);
-                    world.DistanceConstraint(particle.bottom,   particles[i - 1].top,       0.4, distance * 1.1);
-                    world.DistanceConstraint(particle.top,      particles[i - 1].bottom,    0.4, distance * 1.1);
+                    world.DistanceConstraint(particle.top,      particles[i - 1].top,       0.9, distance);
+                    world.DistanceConstraint(particle.bottom,   particles[i - 1].bottom,    0.9, distance);
+                    world.DistanceConstraint(particle.bottom,   particles[i - 1].top,       0.9, distance * 1.1);
+                    world.DistanceConstraint(particle.top,      particles[i - 1].bottom,    0.9, distance * 1.1);
                 }
 
                 if (i > 1) {
